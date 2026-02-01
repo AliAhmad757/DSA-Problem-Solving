@@ -6,9 +6,9 @@
 // Given an integer array nums, return true if any value appears more than once in the array, otherwise return false.
 
 // Approach:
-// I used an Object to store the numbers and their indices. 
-// As we iterate through the array, we check if element exists in the object.
-// If it exists, we found that this is duplicated. If not, and we iterate all the elements we'll return false.
+// I used a javascript set (HashSet) which allows O(1) lookups. 
+// If the size of the set is different from the array length, it means the duplicate exists.
+// OR: We can iterate and check set.has().
 
 // Complexity Analysis:
 // - Time Complexity: O(n) -> We traverse the list exactly once.
@@ -20,20 +20,11 @@ class Solution {
      * @return {boolean}
      */
     hasDuplicate(nums) {
-        let set = {}
-        for (let i = 1; i <= nums.length; i++) {
-            const element = nums[i - 1];
-            if(set[element]){
-                return true
-            }else{
-                set[element] = i
-            }
-        }
-      return false      
+        return new Set(nums).size !== nums.length
     }
 }
 
-const nums = [1, 2, 3, 4, 3]
+const nums = [1, 2, 3, 4, 4]
 
 const obj = new Solution()
 console.log(obj.hasDuplicate(nums));
