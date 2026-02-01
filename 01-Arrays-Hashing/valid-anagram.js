@@ -7,14 +7,14 @@
 // An anagram is a string that contains the exact same characters as another string, but the order of the characters can be different.
 
 // Approach:
-// I used a javascript set (HashSet) which allows O(1) lookups. 
-// If the length of the s string is different from the t string it means it can't be an anagram.
-// I Created two Objects and store with respect to each strings, for each characters count, and then in last i checked is both having same values with respect to thier keys/character, if no return false otherwise true.
-// OR: We can iterate and check set.has().
+// 1. First, check if the lengths of both strings are different. If they are, they cannot be anagrams (return false).
+// 2. I used two Objects (Hash Maps) to act as "Frequency Counters".
+// 3. I iterated through both strings to count the occurrence of each character.
+// 4. Finally, I compared the character counts in both maps. If any character count does not match, return false.
 
 // Complexity Analysis:
-// - Time Complexity: O(n) -> We traverse the string exactly once.
-// - Space Complexity: O(n) -> In the worst case, we store all elements in the hash map.
+// - Time Complexity: O(n) -> We iterate through the strings and the map keys exactly once.
+// - Space Complexity: O(n) -> We use auxiliary space to store character counts in the objects.
 
 class Solution {
     /**
@@ -23,39 +23,30 @@ class Solution {
      * @return {boolean}
      */
     isAnagram(s, t) {
-        const sObject = {}
-        const tObject = {}
+        // Optimization: Length check at the start
+        if (s.length !== t.length) return false;
 
-        for (const element of s) {
-            if(element in sObject){
-                sObject[element]++
-            }else{
-                sObject[element] = 1
+        const sCount = {};
+        const tCount = {};
+
+        for (const char of s) {
+            sCount[char] = (sCount[char] || 0) + 1;
+        }
+
+        for (const char of t) {
+            tCount[char] = (tCount[char] || 0) + 1;
+        }
+
+        // Compare the counts
+        for (const key in sCount) {
+            if (sCount[key] !== tCount[key]) {
+                return false;
             }
         }
 
-        for (const element of t) {
-            if(element in tObject){
-                tObject[element]++
-            }else{
-                tObject[element] = 1
-            }
-        }
-
-        if(Object.keys(sObject).length !== Object.keys(tObject).length){
-            return false
-        }
-
-        for (const key in sObject) {
-        if(sObject[key] !== tObject[key]){
-            return false
-        }       
-        }
-
-        return true 
+        return true; 
     }
 }
-
 
 const s = "a", t = "ab"
 
