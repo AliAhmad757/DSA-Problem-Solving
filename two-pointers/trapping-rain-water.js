@@ -18,6 +18,7 @@
 // Explanation: The above elevation map (black section) is represented by array [4,2,0,3,2,5]. In this case, 9 units of rain water (blue section) are being trapped between the bars.
 
 // Approach:
+// We can use two pointers to solve this problem. We start with one pointer at the beginning of the array and another pointer at the end of the array. We also keep track of the maximum height seen so far from both ends. At each step, we compare the heights at the two pointers and move the pointer that has the smaller height towards the other pointer. We also calculate the amount of water that can be trapped at each step and add it to our total.
 
 // Complexity Analysis:
 // - Time Complexity: O(n) -> We iterate through the heights array exactly once.
