@@ -38,8 +38,6 @@ class Solution {
                 currentMap.set(element, (currentMap.get(element) || 0) + 1)
             }
 
-            console.log(currentMap, s1Map, "currentMap");
-                        // 🔹 Compare after inner loop finishes
             let isEqual = true;
 
             if (currentMap.size !== s1Map.size) {
