@@ -8,11 +8,11 @@
 // You may not use any built-in library functions.
 
 // // Approach:
-// I used the built-in Math.pow function to calculate x raised to the power of n. The Math.pow function takes two arguments, the base (x) and the exponent (n), and returns the result of x raised to the power of n. I wrapped the result in Number() to ensure that it returns a number type, as Math.pow can return a floating-point number.
+// I used the method of exponentiation by squaring to calculate x^n efficiently. If n is negative, I take the reciprocal of x and make n positive. Then, I initialize a variable res to 1. I loop while n is greater than 0. If n is odd, I multiply res by x. Then, I square x and halve n (using floor division). This way, we reduce the number of multiplications needed to calculate x^n, resulting in a logarithmic time complexity.
 
 // Complexity Analysis:
-// - Time Complexity: O(n) -> We may need to iterate through all the digits in the worst case (when all digits are 9).
-// - Space Complexity: O(1) -> We are modifying the input array in place, so we are not using any extra space that grows with the input size.
+// - Time Complexity: O(log n) -> We are halving n at each step, so the number of steps is proportional to log(n).
+// - Space Complexity: O(1) -> We are using a constant amount of space to store the result and intermediate variables.
 
   class Solution {
     /**
@@ -20,9 +20,26 @@
      * @param {number} n
      * @return {number}
      */
-    myPow(x, n) {
-        return Number(Math.pow(x, n))
+   myPow(x, n) {
+    if (n === 0) return 1;
+
+    if (n < 0) {
+        x = 1 / x;
+        n = -n; 
     }
+    
+    let res = 1;
+    while (n > 0) {
+        if (n % 2 === 1) {
+            res = res * x;
+        }
+
+        x = x * x;
+        n = Math.floor(n / 2);
+    }
+    
+    return res;
+}
 }
 
 
