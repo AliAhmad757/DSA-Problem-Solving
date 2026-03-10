@@ -33,24 +33,20 @@ class Solution {
     while (top <= bottom) {
         let midRow = Math.floor((top + bottom) / 2);
         
-        // Agar target is row ke aakhri element se bada hai, to niche wali rows me jao
         if (target > matrix[midRow][cols - 1]) {
             top = midRow + 1;
         } 
-        // Agar target is row ke pehle element se chota hai, to upar wali rows me jao
         else if (target < matrix[midRow][0]) {
             bottom = midRow - 1;
         } 
-        // Target is row ki range me (first aur last element ke darmiyan) mil gaya
         else {
             findIndex = midRow;
             break;
         }
     }
 
-    // Edge case handle karna zaruri hai: aghr target matrix ki puri range se hi bahar ho
     if (findIndex === -1) {
-        return false; // Target matrix me exist nahi karta
+        return false; 
     }
 
     const checkArray = matrix[findIndex];
@@ -69,7 +65,6 @@ class Solution {
             }
         }
         
-        // Agar target matrix ke sab elements se bada ho
         return false;
     }
 }
