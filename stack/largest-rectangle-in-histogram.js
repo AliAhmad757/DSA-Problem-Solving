@@ -15,38 +15,31 @@
 // - Space Complexity: O(1) -> We are using a constant amount of extra space for variables, regardless of the input size.
 
 class Solution {
-    /**
-     * @param {number[]} heights
-     * @return {number}
-     */
-    largestRectangleArea(heights) {
-        const n = heights.length;
-        let maxArea = 0;
+  /**
+   * @param {number[]} heights
+   * @return {number}
+   */
+  largestRectangleArea(heights) {
+    const n = heights.length;
+    let maxArea = 0;
+    const stack = [];
 
-        for (let i = 0; i < n; i++) {
-            let height = heights[i];
-
-            let rightMost = i + 1;
-            while (rightMost < n && heights[rightMost] >= height) {
-                rightMost++;
-            }
-
-            let leftMost = i;
-            while (leftMost >= 0 && heights[leftMost] >= height) {
-                leftMost--;
-            }
-
-            rightMost--;
-            leftMost++;
-            maxArea = Math.max(maxArea, height * (rightMost - leftMost + 1));
-            console.log(maxArea , height, rightMost, leftMost, "maxArea");
-        }
-
-        return maxArea;
+    for (let i = 0; i <= n; i++) {
+      while (
+        stack.length &&
+        (i === n || heights[stack[stack.length - 1]] >= heights[i])
+      ) {
+        const height = heights[stack.pop()];
+        const width = stack.length === 0 ? i : i - stack[stack.length - 1] - 1;
+        maxArea = Math.max(maxArea, height * width);
+      }
+      stack.push(i);
     }
+    return maxArea;
+  }
 }
 
-const heights = [7,1,7,2,2,4]
+const heights = [2, 4];
 
 const obj = new Solution();
 console.log(obj.largestRectangleArea(heights));
