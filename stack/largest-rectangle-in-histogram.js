@@ -8,11 +8,11 @@
 // Note: This chart is known as a histogram.
 
 // Approach:
-// I implemented a brute-force approach to solve the problem. For each bar in the histogram, I treated it as the potential height of a rectangle and then expanded to the left and right to find the maximum width of the rectangle that can be formed with that height. I used two while loops: one to move rightwards until I encounter a bar shorter than the current bar, and another to move leftwards until I encounter a bar shorter than the current bar. After finding the leftmost and rightmost boundaries for the current height, I calculated the area of the rectangle and updated the maximum area found so far.
+// I used a stack-based approach to solve this problem. The idea is to maintain a stack of indices of the histogram bars. We iterate through the heights array, and for each bar, we check if it is taller than the bar at the top of the stack. If it is, we push its index onto the stack. If it is shorter, we pop indices from the stack until we find a bar that is shorter than the current bar. For each popped index, we calculate the area of the rectangle that can be formed with the height of the bar at that index and the width determined by the current index and the index of the new top of the stack. We also handle the case when we reach the end of the heights array, ensuring that we pop all remaining indices from the stack and calculate their areas.
 
 // Complexity Analysis:
-// - Time Complexity: O(n^2) -> In the worst case, we might have to check all bars for each bar to find the left and right boundaries, leading to O(n^2) time complexity.
-// - Space Complexity: O(1) -> We are using a constant amount of extra space for variables, regardless of the input size.
+// - Time Complexity: O(n) -> Each bar is pushed and popped from the stack at most once.
+// - Space Complexity: O(n) -> In the worst case, the stack can hold all indices of the histogram bars.
 
 class Solution {
   /**
