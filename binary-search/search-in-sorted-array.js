@@ -11,7 +11,7 @@
 // A solution that runs in O(n) time is trivial, can you write an algorithm that runs in O(log n) time?
 
 // // Approach:
-// If the array was not rotated, we could simply perform a binary search to find the target. However, since the array is rotated, we need to determine which part of the array is sorted and whether the target lies within that part. We can do this by comparing the middle element with the leftmost element. If the middle element is greater than or equal to the leftmost element, it means that the left half of the array is sorted. Otherwise, the right half is sorted. Based on this information, we can adjust our search range accordingly.
+// We can use a modified binary search algorithm to find the target in the rotated sorted array. The key idea is to determine which half of the array is sorted and then decide whether to search in the left or right half based on the target's value.
 
 // Complexity Analysis:
 // - Time Complexity: O(log n), where n is the number of elements in the input array. This is because we are performing a binary search, which divides the search space in half at each step.
@@ -24,33 +24,33 @@ class Solution {
      * @return {number}
      */
     search(nums, target) {
-        let l = 0,
-            r = nums.length - 1;
+        let l = 0;
+        let r = nums.length - 1;
 
         while (l <= r) {
             const mid = Math.floor((l + r) / 2);
-            if (target === nums[mid]) {
-                return mid;
-            }
+            
+            if (target === nums[mid]) return mid;
 
             if (nums[l] <= nums[mid]) {
-                if (target > nums[mid] || target < nums[l]) {
-                    l = mid + 1;
+                if (target >= nums[l] && target < nums[mid]) {
+                    r = mid - 1; 
                 } else {
-                    r = mid - 1;
+                    l = mid + 1; 
                 }
-            } else {
-                if (target < nums[mid] || target > nums[r]) {
-                    r = mid - 1;
+            } 
+            else {
+                if (target > nums[mid] && target <= nums[r]) {
+                    l = mid + 1; 
                 } else {
-                    l = mid + 1;
+                    r = mid - 1; 
                 }
             }
         }
+        
         return -1;
     }
 }
-
 const nums=[3,5,6,0,1,2], target =  4
 
 const obj = new Solution()
