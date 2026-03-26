@@ -8,11 +8,11 @@
 // Note: A substring is a contiguous non-empty sequence of characters within a string.
 
 // Approach:
-// We can iterate through the string from the end to the beginning, counting the characters of the last word until we encounter a space. We also need to handle cases where there are trailing spaces at the end of the string. We can use a flag to indicate when we have found the last word and a counter to count its length. Once we encounter a space after finding the last word, we can return the count.
+// We can iterate through the string from the end to the beginning, counting the length of the last word until we encounter a space. If we encounter a space after counting some characters, we can return the length. If we reach the beginning of the string without encountering a space, we return the length of the last word.
 
 // Complexity Analysis:
-// - Time Complexity: O(n) where n is the length of the string s, as we need to iterate through the string once.
-// - Space Complexity: O(1) as we are using a constant amount of space to store the character count and flags.
+// - Time Complexity: O(n) where n is the length of the string, since we may need to iterate through the entire string in the worst case.
+// - Space Complexity: O(1) since we are using only a constant amount of extra space for the counter and flag.
 
 class Solution {
     /**
@@ -20,21 +20,17 @@ class Solution {
      * @return {number}
      */
     lengthOfLastWord(s) {
-        let charFound = false
-        let charCount = 0
+        let length = 0;
 
         for (let i = s.length - 1; i >= 0; i--) {
-            const element = s[i];
-            if(element === " " && charFound){
-                return s.length - 1 - i - charCount
-            }else if(element === " "){
-                charCount++
-            }else if(element !== ""){
-                charFound = true
+            if (s[i] !== " ") {
+                length++;
+            } else if (length > 0) {
+                return length;
             }
         }
 
-        return s.length
+        return length;
     }
 }
 
