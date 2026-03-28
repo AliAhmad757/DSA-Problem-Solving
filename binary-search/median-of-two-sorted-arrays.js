@@ -50,6 +50,7 @@ class Solution {
                 return Math.max(L1, L2);
             }
         } 
+        
         else if (L1 > R2) {
             high = partitionX - 1; 
         } 
