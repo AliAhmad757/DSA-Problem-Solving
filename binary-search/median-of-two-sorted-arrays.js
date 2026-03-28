@@ -11,7 +11,7 @@
 
 // Complexity Analysis:
 // - Time Complexity: O(m + n) where M and N are the lengths of the two input arrays, since we are merging the two arrays into a single sorted array.
-// - Space Complexity: O(m + n) since we are creating a new array to store the merged elements of the two input arrays.
+// - Space Complexity: O(1) since we are only using a constant amount of extra space.
 
 class Solution {
     /**
@@ -20,29 +20,35 @@ class Solution {
      * @return {number}
      */
     findMedianSortedArrays(nums1, nums2) {
+        let totalLength = nums1.length + nums2.length;
+        let medianIndex = Math.floor(totalLength / 2);
+
         let l = 0;
         let r = 0;
-        let result = []
+        
+        let current = 0;
+        let previous = 0;
 
-        while (result.length < nums1.length + nums2.length) {
-            const firstElement = nums1[l] !== undefined ? nums1[l] : Infinity ;
-            const secondElement = nums2[r] !== undefined ? nums2[r] : Infinity ;
+        for (let count = 0; count <= medianIndex; count++) {
+            previous = current;
 
-            if(firstElement <= secondElement){
-                result.push(firstElement)
-                l++
-            }else{
-                result.push(secondElement)
-                r++
+            const firstElement = nums1[l] !== undefined ? nums1[l] : Infinity;
+            const secondElement = nums2[r] !== undefined ? nums2[r] : Infinity;
+
+            if (firstElement <= secondElement) {
+                current = firstElement;
+                l++;
+            } else {
+                current = secondElement;
+                r++;
             }
         }
 
-        const medianIndex = Math.floor(result.length / 2);
-        if(result.length % 2 === 0){
-            return (result[medianIndex] + result[medianIndex - 1]) / 2
+        if (totalLength % 2 === 0) {
+            return (current + previous) / 2;
         }
 
-        return result[medianIndex]
+        return current;
     }
 }
 
