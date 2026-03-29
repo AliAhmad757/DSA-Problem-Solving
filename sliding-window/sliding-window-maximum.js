@@ -7,11 +7,16 @@
 // Return a list that contains the maximum element in the window at each step.
 
 // Approach:
-// We can use a brute-force approach to solve this problem. We can iterate through the array and for each position of the sliding window, we can find the maximum element in that window by iterating through the elements in the window and keeping track of the maximum value. We can then add this maximum value to our result list. This approach will have a time complexity of O(n*k) where n is the length of the input array and k is the size of the sliding window.
+// We can use a deque (double-ended queue) to keep track of the indices of the elements in the current sliding window. The deque will maintain the indices in decreasing order of their corresponding values in the input array. This way, the front of the deque will always represent the index of the maximum element in the current window.
+// As we iterate through the input array, we will do the following:
+// 1. Remove indices from the back of the deque while the corresponding values are less than or equal to the current element. This ensures that the deque only contains indices of elements that are greater than the current element.
+// 2. Add the current index to the back of the deque.
+// 3. Remove the front index of the deque if it is out of the bounds of the current sliding window (i.e., if it is less than or equal to i - k).
+// 4. If we have processed at least k elements (i.e., i >= k - 1), we can add the value corresponding to the front index of the deque to our result list, as it represents the maximum element in the current window.
 
 // Complexity Analysis:
-// - Time Complexity: O(n*k) where n is the length of the input array and k is the size of the sliding window. This is because for each of the n-k+1 positions of the sliding window, we are iterating through k elements to find the maximum.
-// - Space Complexity: O(1) since we are using only a constant amount of extra space for the variables to keep track of the maximum value and the result list does not count towards extra space as it is the output.
+// - Time Complexity: O(n), where n is the length of the input array. Each element is added and removed from the deque at most once.
+// - Space Complexity: O(k), where k is the size of the sliding window, as the deque can hold at most k indices.
 
 class Solution {
     /**
@@ -20,22 +25,29 @@ class Solution {
      * @return {number[]}
      */
     maxSlidingWindow(nums, k) {
-        const sumArray = []
-        for (let i = 0; i < (nums.length + 1) - k; i++) {
-            let maxElement = nums[i];
+        const result = [];
+        const deque = []; 
 
-            for (let j = i; j < i+k; j++) {
-                const element = nums[j];
-                maxElement = Math.max(element, maxElement)  
+        for (let i = 0; i < nums.length; i++) {
+            
+            while (deque.length > 0 && nums[deque[deque.length - 1]] <= nums[i]) {
+                deque.pop();
             }
 
-            sumArray.push(maxElement)
+            deque.push(i);
+
+            if (deque[0] <= i - k) {
+                deque.shift();
+            }
+
+            if (i >= k - 1) {
+                result.push(nums[deque[0]]);
+            }
         }
 
-        return sumArray
+        return result;
     }
 }
-
 
 
 const nums = [1,-1], k = 1
