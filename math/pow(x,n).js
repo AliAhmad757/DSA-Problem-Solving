@@ -14,13 +14,13 @@
 // - Time Complexity: O(log n) -> We are halving n at each step, so the number of steps is proportional to log(n).
 // - Space Complexity: O(1) -> We are using a constant amount of space to store the result and intermediate variables.
 
-  class Solution {
+class Solution {
     /**
      * @param {number} x
      * @param {number} n
      * @return {number}
      */
-   myPow(x, n) {
+myPow(x, n) {
     if (n === 0) return 1;
 
     if (n < 0) {
