@@ -42,8 +42,7 @@
 }
 }
 
-
- const x =  1.10000, n = 10
+const x =  1.10000, n = 10
 
 const obj = new Solution();
 console.log(obj.myPow(x, n));
