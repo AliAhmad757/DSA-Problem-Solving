@@ -47,7 +47,7 @@ class Solution {
     }
 }
 
-const s = "foo", t = "bar"
+const s = "egg", t = "add";
 
 const obj = new Solution()
 console.log(obj.isIsomorphic(s, t));
