@@ -21,34 +21,37 @@ class Solution {
    * @return {number}
    */
   countCharacters(words, chars) {
-    const hashMap = new Map();
-    for (const element of chars) {
-      if (hashMap.has(element)) {
-        hashMap.set(element, hashMap.get(element) + 1);
-      } else {
-        hashMap.set(element, 1);
-      }
+    // 1. Build a frequency array for the available characters
+    const charCounts = new Array(26).fill(0);
+    const baseCode = 'a'.charCodeAt(0);
+    
+    for (let i = 0; i < chars.length; i++) {
+      charCounts[chars.charCodeAt(i) - baseCode]++;
     }
 
     let totalChars = 0;
-    for (const element of words) {
-      const tempHashMap = new Map(hashMap);
+
+    // 2. Check each word
+    for (const word of words) {
+      // Clone the frequency array for this specific word
+      const tempCounts = [...charCounts];
       let isValid = true;
 
-      console.log(tempHashMap,"tempHashMap");
-      for (const element1 of element) {
-        if (tempHashMap.has(element1) && tempHashMap.get(element1) >= 1) {
-          tempHashMap.set(element1, tempHashMap.get(element1) - 1);
-        } else {
+      for (let i = 0; i < word.length; i++) {
+        const charIndex = word.charCodeAt(i) - baseCode;
+        
+        // If we run out of this character, the word is invalid
+        if (tempCounts[charIndex] === 0) {
           isValid = false;
           break;
         }
+        tempCounts[charIndex]--;
       }
 
+      // 3. Add to total if valid
       if (isValid) {
-        totalChars += element.length;
+        totalChars += word.length;
       }
-
     }
 
     return totalChars;
